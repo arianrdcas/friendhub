@@ -1,9 +1,30 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import ButtonLogin from "../components/forms/login/ButtonLogin";
 import InputEmailLogin from "../components/forms/login/InputEmailLogin";
 import InputPasswordLogin from "../components/forms/login/InputPasswordLogin";
 
 const Login = () => {
+
+  const [userLoginData, setUserLoginData] = useState({
+    emailLogin: "",
+    passwordLogin: ""
+  })
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserLoginData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Aquí puedes realizar alguna acción con los datos del usuario, como enviarlos a tu servidor
+    console.log(userLoginData);
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -14,9 +35,20 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm border-2 border-blue-600 rounded-md p-5">
-          <form className="space-y-6" action="#" method="POST">
-            <InputEmailLogin />
-            <InputPasswordLogin />
+          <form
+            className="space-y-6"
+            action="#"
+            method="POST"
+            onSubmit={handleSubmit}
+          >
+            <InputEmailLogin 
+            value={userLoginData.emailLogin} 
+            onChange={handleInputChange} 
+            />
+            <InputPasswordLogin
+              value={userLoginData.passwordLogin}
+              onChange={handleInputChange}
+            />
             <ButtonLogin />
           </form>
 
