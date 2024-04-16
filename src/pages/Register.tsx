@@ -1,3 +1,4 @@
+import { useState } from "react"
 import BirthDate from "../components/forms/register/BirthDate"
 import Button from "../components/forms/register/Button"
 import ConfirmPassword from "../components/forms/register/ConfirmPassword"
@@ -8,6 +9,30 @@ import Password from "../components/forms/register/Password"
 
 
 const Register = () => {
+
+const [userData, setUserData] = useState({
+  name: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  birthDate: "",
+});
+
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+  setUserData((prevState) => ({
+    ...prevState,
+    [name]: value,
+  }));
+};
+
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  // Aquí puedes realizar alguna acción con los datos del usuario, como enviarlos a tu servidor
+  console.log(userData);
+};
+
   return (
     <div className="flex min-h-full flex-col justify-center">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -15,15 +40,26 @@ const Register = () => {
           Register
         </h2>
       </div>
-      <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm border-2 border-blue-600 rounded-md p-5">
-        <form className="space-y-6" action="#" method="POST">
-          <InputName/>
-          <InputLastName/>
-          <EmailAddress />
-          <Password/>
-          <ConfirmPassword/>
-          <BirthDate/>
-          <Button/>
+      <div className="m-5 sm:mx-auto sm:w-full sm:max-w-sm border-2 border-blue-600 rounded-md p-5">
+        <form
+          className="space-y-6"
+          action="#"
+          method="POST"
+          onSubmit={handleSubmit}
+        >
+          <InputName value={userData.name} onChange={handleInputChange} />
+          <InputLastName
+            value={userData.lastName}
+            onChange={handleInputChange}
+          />
+          <EmailAddress value={userData.email} onChange={handleInputChange} />
+          <Password value={userData.password} onChange={handleInputChange} />
+          <ConfirmPassword
+            value={userData.confirmPassword}
+            onChange={handleInputChange}
+          />
+          <BirthDate value={userData.birthDate} onChange={handleInputChange} />
+          <Button />
         </form>
       </div>
     </div>
